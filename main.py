@@ -1,4 +1,5 @@
 # Sean Perez
+# Collab: Dominic Stewart
 # Date: 09/11/2022
 
 import numpy as np
