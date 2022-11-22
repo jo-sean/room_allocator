@@ -1,11 +1,31 @@
 # Sean Perez
 # Collab: Dominic Stewart
 # Date: 09/11/2022
-# Sources: https://pynative.com/python-get-time-difference/#:~:text=To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,time%20to%20the%20microsecond%20resolution.&text=To%20get%20a%20time%20difference%20in%20seconds%2C%20use%20the%20timedelta.
+
 
 # import numpy as np
 import pandas as pd
 from datetime import datetime
+
+
+def convert_date(row):
+    timed = row.split(" ")
+    timed[3] = ''.join(timed[3].split("."))
+
+    # Account for improper formatting of document read by adding zero if missing for the HH
+    if timed[2][2] != ":":
+        timed[2] = "0" + timed[2]
+
+    # Convert to 24-hour format
+    if timed[3] == 'pm':
+        if int(timed[2][0:2]) != 12:
+            time_24 = str(12 + int(timed[2][0:2]))
+            timed[2] = time_24 + timed[2][2:]
+
+    # Remove unnecessary am/pm from list
+    timed.pop()
+    timed = ' '.join(timed)
+    return timed
 
 
 def loop_dp(filtered_df):
@@ -25,27 +45,16 @@ def loop_dp(filtered_df):
 
         # To get totals
         ##
-        timed = row[1].split(" ")
-        timed[3] = ''.join(timed[3].split("."))
-
-        # Account for improper formatting of document read by adding zero if missing for the HH
-        if timed[2][2] != ":":
-            timed[2] = "0"+timed[2]
-
-        # Convert to 24-hour format
-        if timed[3] == 'pm':
-            if int(timed[2][0:2]) != 12:
-                time_24 = str(12 + int(timed[2][0:2]))
-                timed[2] = time_24 + timed[2][2:]
-
-        # Remove unnecessary am/pm from list
-        timed.pop()
-        timed = ' '.join(timed)
+        timed = convert_date(row[1])
 
         if curr_open is None:
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
 
+        # Sources: https://pynative.com/python-get-time-difference/#:~:text=
+        # To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,
+        # time%20to%20the%20microsecond%20resolution.&text=To%20get%20a%20time%20difference
+        # %20in%20seconds%2C%20use%20the%20timedelta.
         else:
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
             # print(difference)
@@ -64,8 +73,7 @@ def loop_dp(filtered_df):
             except KeyError:
                 totals_room_num[description_list[2]] = difference
 
-    # print(totals_user_id)
-    # print(totals_room_num)
+    return totals_user_id, totals_room_num
 
 
 def main():
@@ -74,9 +82,20 @@ def main():
     filtered_df = filtered_df.dropna(axis=1)
 
     # string manipulation
-    loop_dp(filtered_df)
+    totals_user_id, totals_room_num = loop_dp(filtered_df)
+
+    # Source: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.from_dict.html
+    # Convert to dataframes
+    df1 = pd.DataFrame.from_dict(totals_user_id, orient="index")
+    df2 = pd.DataFrame.from_dict(totals_room_num, orient="index")
+
+    # Source: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
+    # Source: https://pandas.pydata.org/pandas-docs/version/0.7.0/generated/pandas.DataFrame.to_csv.html
+    # Gets date and creates a new
+    time = datetime.now().strftime("%m-%d-%Y_at_%H%M_%p")
+    df1.to_csv(f'totals_per_user_{time}.csv', index_label=['User ID'], header=['Total Time Used'])
+    df2.to_csv(f'totals_per_room_{time}.csv', index_label=['Room Number'], header=['Total Time Used'])
 
 
 if __name__ == "__main__":
     main()
-
