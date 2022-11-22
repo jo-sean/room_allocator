@@ -1,10 +1,7 @@
 # Sean Perez
 # Collab: Dominic Stewart
 # Date: 09/11/2022
-# Sources: https://pynative.com/python-get-time-difference/#:~:text=
-# To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,
-# time%20to%20the%20microsecond%20resolution.&text=To%20get%20a%20time%20difference
-# %20in%20seconds%2C%20use%20the%20timedelta.
+
 
 # import numpy as np
 import pandas as pd
@@ -54,6 +51,10 @@ def loop_dp(filtered_df):
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
 
+        # Sources: https://pynative.com/python-get-time-difference/#:~:text=
+        # To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,
+        # time%20to%20the%20microsecond%20resolution.&text=To%20get%20a%20time%20difference
+        # %20in%20seconds%2C%20use%20the%20timedelta.
         else:
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
             # print(difference)
@@ -83,10 +84,13 @@ def main():
     # string manipulation
     totals_user_id, totals_room_num = loop_dp(filtered_df)
 
+    # Source: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.from_dict.html
     # Convert to dataframes
     df1 = pd.DataFrame.from_dict(totals_user_id, orient="index")
     df2 = pd.DataFrame.from_dict(totals_room_num, orient="index")
 
+    # Source: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
+    # Source: https://pandas.pydata.org/pandas-docs/version/0.7.0/generated/pandas.DataFrame.to_csv.html
     # Gets date and creates a new
     time = datetime.now().strftime("%m-%d-%Y_at_%H%M_%p")
     df1.to_csv(f'totals_per_user_{time}.csv', index_label=['User ID'], header=['Total Time Used'])
