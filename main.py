@@ -15,6 +15,7 @@ def loop_dp(filtered_df):
     totals_user_id = {}
     totals_room_num = {}
     curr_open = None
+    user = None
 
     for _, row in df.iterrows():
 
@@ -43,18 +44,28 @@ def loop_dp(filtered_df):
 
         if curr_open is None:
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
+            user = description_list[1]
 
         else:
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
-            print(difference)
+            # print(difference)
             curr_open = None
 
+            # To get user_ID (skips if there are different users opening and closing
+            if user == description_list[1]:
+                try:
+                    totals_user_id[user] += difference
+                except KeyError:
+                    totals_user_id[user] = difference
 
-        # To get user_ID
+            # To get rooms
+            try:
+                totals_room_num[description_list[2]] += difference
+            except KeyError:
+                totals_room_num[description_list[2]] = difference
 
-        # try:
-        #     totals_user_id[] =
-
+    # print(totals_user_id)
+    # print(totals_room_num)
 
 
 def main():
