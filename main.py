@@ -4,6 +4,8 @@
 # Sources: https://pynative.com/python-get-time-difference/#:~:text=To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,time%20to%20the%20microsecond%20resolution.&text=To%20get%20a%20time%20difference%20in%20seconds%2C%20use%20the%20timedelta.
 
 # import numpy as np
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 import pandas as pd
 from datetime import datetime
 
@@ -67,14 +69,22 @@ def loop_dp(filtered_df):
     # print(totals_user_id)
     # print(totals_room_num)
 
+def getFileName():
+    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+    filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+    return filename
 
-def main():
-    df = pd.read_excel("C:/Users/Sean/Downloads/PatRep260922206883.xls", header=None)
+def readExcelFile():
+    df = pd.read_excel(getFileName(), header=None)
     filtered_df = df[df[5].str.contains('Open|Close') == True]
     filtered_df = filtered_df.dropna(axis=1)
 
     # string manipulation
     loop_dp(filtered_df)
+
+
+def main():
+    readExcelFile()
 
 
 if __name__ == "__main__":
