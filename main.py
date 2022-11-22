@@ -4,6 +4,8 @@
 
 
 # import numpy as np
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 import pandas as pd
 from datetime import datetime
 
@@ -75,9 +77,13 @@ def loop_dp(filtered_df):
 
     return totals_user_id, totals_room_num
 
+def getFileName():
+    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+    filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+    return filename
 
-def main():
-    df = pd.read_excel("C:/Users/Sean/Downloads/PatRep260922206883.xls", header=None)
+def readExcelFile():
+    df = pd.read_excel(getFileName(), header=None)
     filtered_df = df[df[5].str.contains('Open|Close') == True]
     filtered_df = filtered_df.dropna(axis=1)
 
@@ -95,6 +101,10 @@ def main():
     time = datetime.now().strftime("%m-%d-%Y_at_%H%M_%p")
     df1.to_csv(f'totals_per_user_{time}.csv', index_label=['User ID'], header=['Total Time Used'])
     df2.to_csv(f'totals_per_room_{time}.csv', index_label=['Room Number'], header=['Total Time Used'])
+
+
+def main():
+    readExcelFile()
 
 
 if __name__ == "__main__":
