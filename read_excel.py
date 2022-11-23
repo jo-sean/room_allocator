@@ -5,7 +5,11 @@ from total_sums import loop_dp
 
 
 def read_excel_file():
-    df = pd.read_excel(get_file_name(), header=None)
+    df = pd.read_excel(get_file_name(), sheet_name=None, header=None)
+
+    # Concatenate dataframes in dictionary into a single dataframe
+    df = pd.concat(df)
+
     filtered_df = df[df[5].str.contains('Open|Close') == True]
     filtered_df = filtered_df.dropna(axis=1)
 

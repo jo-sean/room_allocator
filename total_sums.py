@@ -29,20 +29,28 @@ def loop_dp(filtered_df):
     totals_room_num = {}
     curr_open = None
     user = None
+    o_flag = None
 
     for _, row in df.iterrows():
 
         # To get room_num
-        description_list = " ".join(row[5].split(" >")).split(" ")[:4]
+        description_list = row[5].split(" >")
+        room_str = description_list[1]
+        description_list = description_list[0].split(" ")
         del description_list[1]
+        description_list.append(room_str.split(description_list[0])[0].strip())
 
         # To get totals
-        ##
         timed = convert_date(row[1])
 
-        if curr_open is None:
+        if o_flag is None:
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
+            print(curr_open)
+            o_flag = description_list[0]
+
+        elif o_flag == description_list[0]:
+            continue
 
         # Sources: https://pynative.com/python-get-time-difference/#:~:text=
         # To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,
@@ -50,8 +58,11 @@ def loop_dp(filtered_df):
         # %20in%20seconds%2C%20use%20the%20timedelta.
         else:
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
-            # print(difference)
+            print(timed)
+
+            print(difference)
             curr_open = None
+            o_flag = None
 
             # To get user_ID (skips if there are different users opening and closing
             if user == description_list[1]:
@@ -65,5 +76,7 @@ def loop_dp(filtered_df):
                 totals_room_num[description_list[2]] += difference
             except KeyError:
                 totals_room_num[description_list[2]] = difference
+
+    print(totals_room_num)
 
     return totals_user_id, totals_room_num
