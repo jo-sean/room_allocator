@@ -46,7 +46,6 @@ def loop_dp(filtered_df):
         if o_flag is None:
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
-            print(curr_open)
             o_flag = description_list[0]
 
         elif o_flag == description_list[0]:
@@ -58,9 +57,6 @@ def loop_dp(filtered_df):
         # %20in%20seconds%2C%20use%20the%20timedelta.
         else:
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
-            print(timed)
-
-            print(difference)
             curr_open = None
             o_flag = None
 
@@ -76,7 +72,5 @@ def loop_dp(filtered_df):
                 totals_room_num[description_list[2]] += difference
             except KeyError:
                 totals_room_num[description_list[2]] = difference
-
-    print(totals_room_num)
 
     return totals_user_id, totals_room_num
