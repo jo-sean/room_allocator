@@ -5,6 +5,9 @@ from total_sums import loop_dp
 
 
 def read_excel_file():
+    """Opens Excel file and extracts contents into dataframe,
+    returns two csv files with the totals for users and for rooms"""
+
     df = pd.read_excel(get_file_name(), sheet_name=None, header=None)
 
     # Concatenate dataframes in dictionary into a single dataframe
