@@ -1,5 +1,3 @@
-import datetime
-
 
 def dict_convert_datetime_hhmm(dic):
     """Takes dictionary and converts its values from datetime to format hhmm """

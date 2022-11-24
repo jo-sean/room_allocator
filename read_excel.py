@@ -20,7 +20,7 @@ def read_excel_file():
     filtered_df = df[df[5].str.contains('Open|Close') == True]
     filtered_df = filtered_df.dropna(axis=1)
 
-    # string manipulation
+    # String manipulation
     totals_user_id, totals_room_num = loop_dp(filtered_df)
 
     # Source: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.from_dict.html

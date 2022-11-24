@@ -54,8 +54,6 @@ def loop_dp(filtered_df):
 
             # To close for the user that didn't
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
-            curr_open = None
-            o_flag = None
 
             # Totals for user that didn't close
             try:
