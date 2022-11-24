@@ -1,7 +1,9 @@
 from datetime import datetime
+from convert_dict_vals import dict_convert_datetime_hhmm as converter
 
 
 def convert_date(row):
+    """Takes strings from excel and calculates totals and returns to string showing total hh:mm"""
     timed = row.split(" ")
     timed[3] = ''.join(timed[3].split("."))
 
@@ -10,7 +12,7 @@ def convert_date(row):
         timed[2] = "0" + timed[2]
 
     # Convert to 24-hour format
-    if timed[3] == 'pm':
+    if timed[3].upper() == 'PM':
         if int(timed[2][0:2]) != 12:
             time_24 = str(12 + int(timed[2][0:2]))
             timed[2] = time_24 + timed[2][2:]
@@ -49,22 +51,24 @@ def loop_dp(filtered_df):
             o_flag = description_list[0]
 
         elif o_flag == description_list[0]:
-            #to close for the user that didnt
+
+            # To close for the user that didn't
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
             curr_open = None
             o_flag = None
-            #totals for user that didnt close
+
+            # Totals for user that didn't close
             try:
-                    totals_user_id[user] += difference
+                totals_user_id[user] += difference
             except KeyError:
-                    totals_user_id[user] = difference
+                totals_user_id[user] = difference
 
             try:
                 totals_room_num[description_list[2]] += difference
             except KeyError:
                 totals_room_num[description_list[2]] = difference
             
-            #fresh open for current user
+            # Fresh open for current user
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
             o_flag = description_list[0]            
@@ -91,4 +95,7 @@ def loop_dp(filtered_df):
             except KeyError:
                 totals_room_num[description_list[2]] = difference
 
-    return totals_user_id, totals_room_num
+    u_total = converter(totals_user_id)
+    r_total = converter(totals_room_num)
+
+    return u_total, r_total
