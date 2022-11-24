@@ -17,6 +17,10 @@ def convert_date(row):
             time_24 = str(12 + int(timed[2][0:2]))
             timed[2] = time_24 + timed[2][2:]
 
+    # Convert to 24-hour format for weird time difference bug from the security company
+    if timed[3].upper() == 'AM' and int(timed[2][0:2]) == 12:
+        timed[2] = "00" + timed[2][2:]
+
     # Remove unnecessary am/pm from list
     timed.pop()
     timed = ' '.join(timed)

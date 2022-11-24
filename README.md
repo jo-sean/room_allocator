@@ -1,6 +1,5 @@
 # room_allocator
-Scans security company spreadsheets and calculates how much rooms are used and how often organizations use rooms.
-
+Scans security company spreadsheets and calculates how much each room is used and how often organizations use the rooms.
 
 Install required modules by running the following on cmd or terminal:
 > pip3 install -r requirements.txt
