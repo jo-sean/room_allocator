@@ -8,6 +8,9 @@ def read_excel_file():
     """Opens Excel file and extracts contents into dataframe,
     returns two csv files with the totals for users and for rooms"""
 
+    # Column index for the room opening/closing data
+    col_index = 5
+
     file_name = get_file_name()
     df = pd.read_excel(file_name, sheet_name=None, header=None)
 
@@ -16,8 +19,9 @@ def read_excel_file():
 
     # Concatenate dataframes in dictionary into a single dataframe
     df = pd.concat(df)
+    print("concat successful")
 
-    filtered_df = df[df[5].str.contains('Open|Close') == True]
+    filtered_df = df.loc[(df[col_index].str.contains('open|close', case=False) == True) & (df[col_index].str.contains('late to close', case=False) == False)]
     filtered_df = filtered_df.dropna(axis=1)
 
     # String manipulation
