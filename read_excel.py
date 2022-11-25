@@ -19,7 +19,6 @@ def read_excel_file():
 
     # Concatenate dataframes in dictionary into a single dataframe
     df = pd.concat(df)
-    print("concat successful")
 
     filtered_df = df.loc[(df[col_index].str.contains('open|close', case=False) == True) & (df[col_index].str.contains('late to close', case=False) == False)]
     filtered_df = filtered_df.dropna(axis=1)
