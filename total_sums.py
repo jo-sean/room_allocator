@@ -40,10 +40,16 @@ def loop_dp(filtered_df):
     for _, row in df.iterrows():
 
         # To get room_num
-        description_list = row[5].split(" >")
-        room_str = description_list[1]
-        description_list = description_list[0].split(" ")
-        del description_list[1]
+        if " >" in row[5]:
+            description_list = row[5].split(" >")
+            room_str = description_list[1]
+            description_list = description_list[0].split(" ")
+            del description_list[1]
+        else:
+            description_list = row[5].split("By")
+            room_str = "Refugee Centre"
+            description_list[1] = description_list[1].split(" ")[-1]
+
         description_list.append(room_str.split(description_list[0])[0].strip())
         description_list[0] = description_list[0].lower()
 
