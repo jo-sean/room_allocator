@@ -80,7 +80,6 @@ def loop_dp(filtered_df):
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
             o_flag = description_list[0]
-        
 
         # Sources: https://pynative.com/python-get-time-difference/#:~:text=
         # To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,
