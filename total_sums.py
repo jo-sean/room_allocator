@@ -45,6 +45,7 @@ def loop_dp(filtered_df):
         description_list = description_list[0].split(" ")
         del description_list[1]
         description_list.append(room_str.split(description_list[0])[0].strip())
+        description_list[0] = description_list[0].lower()
 
         # To get totals
         timed = convert_date(row[1])
@@ -55,7 +56,6 @@ def loop_dp(filtered_df):
             o_flag = description_list[0]
 
         elif o_flag == description_list[0]:
-
             # To close for the user that didn't
             difference = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S') - curr_open
 
@@ -73,7 +73,8 @@ def loop_dp(filtered_df):
             # Fresh open for current user
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
-            o_flag = description_list[0]            
+            o_flag = description_list[0]
+        
 
         # Sources: https://pynative.com/python-get-time-difference/#:~:text=
         # To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,
