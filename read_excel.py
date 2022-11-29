@@ -33,5 +33,6 @@ def read_excel_file():
 
     # Source: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html
     # Source: https://pandas.pydata.org/pandas-docs/version/0.7.0/generated/pandas.DataFrame.to_csv.html
-    df1.to_csv(f'totals_per_user_{file_name}.csv', index_label=['User ID'], header=['Total Time Used'])
-    df2.to_csv(f'totals_per_room_{file_name}.csv', index_label=['Room Number'], header=['Total Time Used'])
+    os.makedirs('Output Files', exist_ok=True)
+    df1.to_csv(f'Output Files/totals_per_user_{file_name}.csv', index_label=['User ID'], header=['Total Time Used'])
+    df2.to_csv(f'Output Files/totals_per_room_{file_name}.csv', index_label=['Room Number'], header=['Total Time Used'])
