@@ -11,7 +11,7 @@ def read_excel_file():
     # Column index for the room opening/closing data
     col_index = 5
 
-    #
+    # Retrieves name of file being read to be used in the exports
 
     file_name = get_file_name()
     df = pd.read_excel(file_name, sheet_name=None, header=None)
@@ -20,7 +20,7 @@ def read_excel_file():
     file_name = os.path.splitext(os.path.basename(file_name))[0]
 
     for key, value in df.items():
-        df_col_2 = value[value[2].str.contains('- phillipstown', case=False) == True]
+        df_col_2 = value[value[2].str.contains('[-]\\s[a-zA-Z]+\\s[-]', regex=True, case=False) == True]
         df_col_2 = df_col_2[2].str.split(' - ').str[-1]
         value['Room'] = df_col_2.to_string(buf=None,index=False)
 

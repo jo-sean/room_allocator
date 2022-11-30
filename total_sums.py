@@ -41,14 +41,14 @@ def loop_dp(filtered_df):
 
         # To get room_num
         if " >" in row[5]:
-            description_list = row[5].split(" >")
-            room_str = description_list[1]
-            description_list = description_list[0].split(" ")
+            description_list = row[5].split(" >")[0].split(" ")
             del description_list[1]
         else:
             description_list = row[5].split("By")
-            room_str = "Refugee Centre"
             description_list[1] = description_list[1].split(" ")[-1]
+
+        # Get room name
+        room_str = row["Room"]
 
         description_list.append(room_str.split(description_list[0])[0].strip())
         description_list[0] = description_list[0].lower()
@@ -80,6 +80,7 @@ def loop_dp(filtered_df):
             curr_open = datetime.strptime(timed, '%d/%m/%Y %H:%M:%S')
             user = description_list[1]
             o_flag = description_list[0]
+
 
         # Sources: https://pynative.com/python-get-time-difference/#:~:text=
         # To%20get%20the%20difference%20between%20two%2Dtime%2C%20subtract%20time1%20from,
