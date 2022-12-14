@@ -30,6 +30,9 @@ def read_excel_file():
     filtered_df = df.loc[df[col_index].str.contains('open by|close by', case=False) == True]
     filtered_df = filtered_df.dropna(axis=1)
 
+    filtered_df[5] = filtered_df[5].str.replace(r'([(](.*)[)]\s?)', '', regex=True)
+    print(filtered_df.to_string())
+
     # String manipulation
     totals_user_id, totals_room_num = loop_dp(filtered_df)
 
