@@ -1,3 +1,4 @@
 ECHO OFF
-pip3 install -r requirements.txt
+-m ensurepip
+-m pip install -r requirements.txt
 python main.py
