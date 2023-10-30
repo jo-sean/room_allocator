@@ -20,7 +20,7 @@ def read_excel_file():
     file_name = os.path.splitext(os.path.basename(file_name))[0]
 
     for key, value in df.items():
-        df_col_2 = value[value[2].str.contains('Colliers|Linwood', case=False) == True]
+        df_col_2 = value[value[2].str.contains('Colliers|Linwood|Downer', case=False) == True]
         df_col_2 = df_col_2[2].str.split(' - ').str[-1]
         value['Room'] = df_col_2.to_string(buf=None,index=False)
 
