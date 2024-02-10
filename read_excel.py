@@ -20,7 +20,7 @@ def read_excel_file():
     file_name = os.path.splitext(os.path.basename(file_name))[0]
 
     for key, value in df.items():
-        df_col_2 = value[value[2].str.contains('Colliers|Linwood', case=False) == True]
+        df_col_2 = value[value[2].str.contains('Colliers|Linwood|Downer', case=False) == True]
         df_col_2 = df_col_2[2].str.split(' - ').str[-1]
         value['Room'] = df_col_2.to_string(buf=None,index=False)
 
@@ -31,7 +31,7 @@ def read_excel_file():
     filtered_df = filtered_df.dropna(axis=1)
 
     filtered_df[5] = filtered_df[5].str.replace(r'([(](.*)[)]\s?)', '', regex=True)
-
+    print(filtered_df.to_string())
     # String manipulation
     totals_user_id, totals_room_num = loop_dp(filtered_df)
 
